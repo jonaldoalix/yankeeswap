@@ -1,0 +1,16 @@
+{
+  "name": "yankeeswap",
+  "version": "1.0.0",
+  "description": "A custom take on spicing up a traditional Yankee Swap game for the holidays.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonaldo Alix",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.2"
+  }
+}
