@@ -1,0 +1,14 @@
+services:
+  yankeeswap:
+    build: .
+    container_name: yankeeswap
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PORT: "1224"
+      MUSEUM_MODE: "true"
+      SEED_MUSEUM_DEMO: "true"
+      JOIN_CODE: "YANK"
+    ports:
+      - "1224:1224"

@@ -1,0 +1,6 @@
+# Lab overlay for fsb-03 museum publish (Tailscale bind on :8101).
+# Usage: docker compose -f compose.yaml -f compose.fsb.yaml up -d --build
+services:
+  yankeeswap:
+    ports:
+      - "100.64.0.7:8101:1224"

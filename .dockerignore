@@ -1,0 +1,12 @@
+.git
+.github
+.cursor
+.npm-cache
+coverage
+dist
+node_modules
+.env
+.env.*
+*.log
+*.pem
+.DS_Store

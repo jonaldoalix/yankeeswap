@@ -1,16 +1,65 @@
 {
   "name": "yankeeswap",
-  "version": "1.0.0",
-  "description": "A custom take on spicing up a traditional Yankee Swap game for the holidays.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Host a digital Yankee Swap from a phone, TV, and player seats",
+  "keywords": [
+    "yankee-swap",
+    "white-elephant",
+    "gift-exchange",
+    "typescript",
+    "react",
+    "pwa"
+  ],
+  "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently -k -n server,client -c green,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "tsx watch server/src/index.ts",
+    "dev:client": "vite --config client/vite.config.ts",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --config client/vite.config.ts",
+    "build:server": "tsc -p server/tsconfig.json",
+    "start": "node dist/server/src/index.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint shared server/src client/src && tsc -p server/tsconfig.json --noEmit && tsc -p client/tsconfig.json --noEmit"
   },
-  "author": "Jonaldo Alix",
+  "author": "Full Stack Boston / Jonaldo Alix",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonaldoalix/yankeeswap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonaldoalix/yankeeswap/issues"
+  },
+  "homepage": "https://yankee.fullstackboston.com",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "express": "^4.18.2",
-    "nodemon": "^3.0.2"
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^4.0.14"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@types/supertest": "^6.0.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^3.2.7",
+    "concurrently": "^9.2.0",
+    "oxlint": "^1.78.0",
+    "supertest": "^7.2.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.6",
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^3.2.4"
   }
 }

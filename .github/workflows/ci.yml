@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, test, coverage, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Tests with 100% coverage gate
+        run: npm run test:coverage
+      - name: Build
+        run: npm run build
+
+  osv:
+    name: Dependency scan (OSV)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Scan lockfile with OSV-Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2.5.0
+        with:
+          scan-args: |-
+            --config=osv-scanner.toml
+            --lockfile=package-lock.json
+
+  semgrep:
+    name: Semgrep OSS
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Trust workspace for git (container UID)
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Scan
+        run: |
+          semgrep scan \
+            --config p/javascript \
+            --config p/typescript \
+            --config p/react \
+            --severity ERROR \
+            --error \
+            --metrics=off \
+            --exclude=node_modules \
+            --exclude=dist \
+            --exclude=coverage \
+            --exclude='**/*.test.ts' \
+            --exclude='**/*.test.tsx'

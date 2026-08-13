@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # Version PRs paused after initial catch-up; security alerts stay enabled on the repo.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
