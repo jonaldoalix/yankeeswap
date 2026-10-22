@@ -491,6 +491,12 @@ describe("API", () => {
     expect((await request(app).get("/api/state").set({ Authorization: "Bearer " })).status).toBe(
       401,
     );
+    expect((await request(app).get("/api/state").set({ Authorization: "Bearer\t" })).status).toBe(
+      401,
+    );
+    expect((await request(app).get("/api/state").set({ Authorization: "bearer " + token })).status).toBe(
+      200,
+    );
     expect((await request(app).get("/api/state?access_token=%20")).status).toBe(401);
 
     store.sessions.set("ghost", { token: "ghost", role: "player" });

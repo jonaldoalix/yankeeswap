@@ -114,6 +114,18 @@ describe("signup and order", () => {
     expect(errorOf(reduce(removed, { type: "removePlayer", id: "missing" }))).toMatch(/not found/);
   });
 
+  it("shuffleOrder rejects an empty lobby", () => {
+    expect(errorOf(reduce(createGameState(), { type: "shuffleOrder", seed: 1 }))).toMatch(/at least one/);
+  });
+
+  it("removePlayer filters that id out of an existing turn order", () => {
+    const seated = lobby();
+    const shuffled = ok(reduce(seated, { type: "shuffleOrder", seed: 7, at: 2 }));
+    expect(shuffled.turnOrder).toContain("a");
+    const removed = ok(reduce(shuffled, { type: "removePlayer", id: "a", at: 3 }));
+    expect(removed.turnOrder).not.toContain("a");
+  });
+
   it("shuffles, assigns, and starts", () => {
     expect(errorOf(reduce(createGameState(), { type: "shuffleOrder", seed: 1 }))).toMatch(
       /at least one/,
