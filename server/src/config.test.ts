@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { findRoot, loadConfig } from "./config.js";
 
@@ -12,8 +15,12 @@ afterEach(() => {
 
 describe("findRoot", () => {
   it("returns start when no package.json exists up the tree", () => {
-    const start = "/tmp/yankeeswap-no-package-root";
-    expect(findRoot(start)).toBe(start);
+    const start = mkdtempSync(join(tmpdir(), "app-no-package-root-"));
+    try {
+      expect(findRoot(start)).toBe(start);
+    } finally {
+      rmSync(start, { recursive: true, force: true });
+    }
   });
 
   it("finds this repository root", () => {
