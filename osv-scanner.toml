@@ -1,2 +1,6 @@
 # Yankee Swap: no intentional vulnerability ignores yet.
 # Add [[IgnoredVulns]] entries only with a written reason when needed.
+
+[[IgnoredVulns]]
+id = "GHSA-gcqx-w48m-w2h4"
+reason = "deepmerge has no patched release; transitive vite-plugin-pwa only, not shipped to users"
