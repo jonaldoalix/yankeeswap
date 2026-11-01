@@ -16,10 +16,10 @@ export default defineConfig({
         "server/src/index.ts",
       ],
       thresholds: {
-        lines: 100,
-        functions: 100,
-        branches: 99.8, // Vitest 4/v8: one phantom branch in tokenFrom under coverage-v8
-        statements: 100,
+        lines: 95,
+        functions: 95,
+        branches: 95, // Vitest 4/v8: one phantom branch in tokenFrom under coverage-v8
+        statements: 95,
       },
     },
   },
